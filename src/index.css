@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Noto Sans", sans-serif;
+}
+
+.spinner {
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid lightblue;
+  border-right-color: #0064FE;
+  animation: s2 1s infinite linear;
+}
+
+@keyframes s2 {
+  to {
+    transform: rotate(1turn);
+  }
+}
