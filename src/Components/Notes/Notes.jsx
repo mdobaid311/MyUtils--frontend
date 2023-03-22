@@ -15,7 +15,9 @@ const Notes = () => {
   const [updatingNoteId, setUpdatingNoteId] = useState("");
 
   const getAllNotes = async () => {
-    const res = await axios.get("https://my-utils-backend.onrender.com/api/v1/notes");
+    const res = await axios.get(
+      "https://my-utils-backend.onrender.com/api/v1/notes"
+    );
     setNotes(await res.data);
   };
 
@@ -27,10 +29,13 @@ const Notes = () => {
   const onCloseModal = () => setOpen(false);
 
   const addNoteHandler = async () => {
-    const res = await axios.post("https://my-utils-backend.onrender.com/api/v1/notes", {
-      title: title,
-      note: text,
-    });
+    const res = await axios.post(
+      "https://my-utils-backend.onrender.com/api/v1/notes",
+      {
+        title: title,
+        note: text,
+      }
+    );
     getAllNotes();
     setOpen(false);
     setTitle("");
@@ -114,13 +119,11 @@ const Notes = () => {
               key={i}
               className="w-full flex justify-between items-center p-2 bg-white rounded-md mb-2"
             >
-              <div>
-                <span className={`mr-5 bg-slate-300 p-1 rounded-md`}>
-                  {i + 1}
-                </span>
-                <span className="">{note.title}</span>
-              </div>
-              <div>
+              <span className={`mr-5 bg-slate-300 p-1 rounded-md`}>
+                {i + 1}
+              </span>
+              <span className="flex-1">{note.title}</span>
+              <div className="flex">
                 <button
                   onClick={() => {
                     setUpdatingNoteId(note._id);
