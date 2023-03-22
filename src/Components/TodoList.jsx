@@ -3,14 +3,21 @@ import { IoMdAdd } from "react-icons/io";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BsCheck2Square } from "react-icons/bs";
 import axios from "axios";
+import Button from "./utilities/Button";
+import { ThreeDots } from "react-loader-spinner";
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef();
 
   const getAllTodos = async () => {
-    const res = await fetch("https://my-utils-backend.onrender.com/api/v1/todos");
+    setLoading(true);
+    const res = await fetch(
+      "https://my-utils-backend.onrender.com/api/v1/todos"
+    );
     const data = await res.json();
+    setLoading(false);
     setTodos(data);
   };
 
@@ -19,26 +26,37 @@ const TodoList = () => {
   }, []);
 
   const updateTodo = async (_id) => {
-    const res = await axios.patch("https://my-utils-backend.onrender.com/api/v1/todos", {
-      _id,
-    });
-
+    setLoading(true);
+    const res = await axios.patch(
+      "https://my-utils-backend.onrender.com/api/v1/todos",
+      {
+        _id,
+      }
+    );
+    setLoading(false);
     getAllTodos();
   };
 
   const createTodo = async () => {
-    const res = await axios.post("https://my-utils-backend.onrender.com/api/v1/todos", {
-      label: inputRef.current.value,
-    });
+    setLoading(true);
+    const res = await axios.post(
+      "https://my-utils-backend.onrender.com/api/v1/todos",
+      {
+        label: inputRef.current.value,
+      }
+    );
     inputRef.current.value = "";
     setTodos((prev) => [...prev, res.data]);
+    setLoading(false);
   };
 
   const deleteTodo = async (todoId) => {
+    setLoading(true);
     const res = await axios.delete(
       `https://my-utils-backend.onrender.com/api/v1/todos/${todoId}`
     );
     getAllTodos();
+    setLoading(false);
   };
 
   return (
@@ -51,9 +69,16 @@ const TodoList = () => {
           placeholder="Add Todo..."
           ref={inputRef}
         />
-        <button onClick={createTodo}>
-          <IoMdAdd className="text-[30px] font-light p-1" />
-        </button>
+        <Button
+          label={
+            loading ? (
+              <ThreeDots color="white" height={20} width={20} />
+            ) : (
+              <IoMdAdd className="text-[30px] font-light" />
+            )
+          }
+          onClick={createTodo}
+        ></Button>
       </div>
 
       <div className="mt-5">
