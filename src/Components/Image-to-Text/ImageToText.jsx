@@ -23,10 +23,13 @@ const ImageToText = () => {
   };
 
   const addNoteHandler = async () => {
-    const res = await axios.post("https://my-utils-backend.onrender.com/api/v1/notes", {
-      title: text,
-      note: text,
-    });
+    const res = await axios.post(
+      `${import.meta.env.VITE_API_URL}/api/v1/notes`,
+      {
+        title: text,
+        note: text,
+      }
+    );
     setSaved(true);
   };
 

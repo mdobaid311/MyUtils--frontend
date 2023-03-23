@@ -1,12 +1,12 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import TodoList from "../Components/TodoList";
-import ChatGPT from "../Components/ChatGPT";
 import Sidebar from "../Components/utilities/Sidebar";
 import ImageToText from "../Components/Image-to-Text/ImageToText";
 import Notes from "../Components/Notes/Notes";
 import PDFToWord from "../Components/PDF-to-Word/PDFToWord";
 import WordToPDF from "../Components/Word-to-PDF/WordToPDF";
+import ChatGPT from "../Components/ChatGPT/ChatGPT";
+import TodoList from "../Components/TodoList/TodoList";
 
 const Home = () => {
   return (

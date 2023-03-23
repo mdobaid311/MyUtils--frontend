@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import {Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
@@ -11,7 +11,7 @@ function App() {
       navigate("/login");
     }
   }, []);
-  return (
+   return (
     <Routes>
       <Route exact path="/login" element={<Login />} />
       <Route path="*" element={<Home />} />

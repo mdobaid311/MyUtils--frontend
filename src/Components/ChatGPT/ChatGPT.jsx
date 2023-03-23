@@ -2,8 +2,8 @@ import axios from "axios";
 import React, { useRef, useState } from "react";
 import { MdSend } from "react-icons/md";
 import { AiOutlineSave } from "react-icons/ai";
-import Loading from "./utilities/Loading";
-import Button from "./utilities/Button";
+import Loading from "../utilities/Loading";
+import Button from "../utilities/Button";
 
 const ChatGPT = () => {
   const [answer, setAnswer] = useState("");
@@ -13,7 +13,7 @@ const ChatGPT = () => {
 
   const resultHandler = async () => {
     setLoading(true);
-    const res = await axios.post("https://my-utils-backend.onrender.com/api/v1/codex", {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/codex`, {
       prompt: inputRef.current.value,
     });
     setLoading(false);
@@ -22,7 +22,7 @@ const ChatGPT = () => {
   };
 
   const addNoteHandler = async () => {
-    const res = await axios.post("https://my-utils-backend.onrender.com/api/v1/notes", {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/notes`, {
       title: inputRef.current.value,
       note: answer.trim(),
     });
@@ -31,9 +31,7 @@ const ChatGPT = () => {
 
   return (
     <div className="w-full h-full p-10 flex flex-col overflow-scroll overflow-x-hidden scrollbar-hide">
-      <h1 className="text-[32px] font-semibold uppercase mb-10  ">
-        Ask Codex
-      </h1>
+      <h1 className="text-[32px] font-semibold uppercase mb-10  ">Ask Codex</h1>
       <div className="w-full flex items-center bg-white rounded-md p-2">
         <input
           type="text"

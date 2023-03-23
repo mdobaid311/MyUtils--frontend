@@ -18,9 +18,7 @@ const Notes = () => {
 
   const getAllNotes = async () => {
     setLoading(true);
-    const res = await axios.get(
-      "https://my-utils-backend.onrender.com/api/v1/notes"
-    );
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/v1/notes`);
     setNotes(await res.data);
     setLoading(false);
   };
@@ -45,7 +43,7 @@ const Notes = () => {
     setLoading(true);
 
     const res = await axios.post(
-      "https://my-utils-backend.onrender.com/api/v1/notes",
+      `${import.meta.env.VITE_API_URL}/api/v1/notes`,
       {
         title: title,
         note: text,
@@ -62,7 +60,7 @@ const Notes = () => {
     setLoading(true);
 
     const res = await axios.delete(
-      `https://my-utils-backend.onrender.com/api/v1/notes/${noteId}`
+      `${import.meta.env.VITE_API_URL}/api/v1/notes/${noteId}`
     );
     getAllNotes();
     setLoading(false);
@@ -72,7 +70,7 @@ const Notes = () => {
     setLoading(true);
 
     const res = await axios.patch(
-      `https://my-utils-backend.onrender.com/api/v1/notes/${noteId}`,
+      `${import.meta.env.VITE_API_URL}/api/v1/notes/${noteId}`,
       { title: title, note: text }
     );
     setEdit(false);

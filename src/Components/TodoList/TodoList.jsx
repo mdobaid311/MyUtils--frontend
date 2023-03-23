@@ -3,7 +3,7 @@ import { IoMdAdd } from "react-icons/io";
 import { RiDeleteBin5Fill } from "react-icons/ri";
 import { BsCheck2Square } from "react-icons/bs";
 import axios from "axios";
-import Button from "./utilities/Button";
+import Button from "../utilities/Button";
 import { ThreeDots } from "react-loader-spinner";
 
 const TodoList = () => {
@@ -13,9 +13,7 @@ const TodoList = () => {
 
   const getAllTodos = async () => {
     setLoading(true);
-    const res = await fetch(
-      "https://my-utils-backend.onrender.com/api/v1/todos"
-    );
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/todos`);
     const data = await res.json();
     setLoading(false);
     setTodos(data);
@@ -28,7 +26,7 @@ const TodoList = () => {
   const updateTodo = async (_id) => {
     setLoading(true);
     const res = await axios.patch(
-      "https://my-utils-backend.onrender.com/api/v1/todos",
+      `${import.meta.env.VITE_API_URL}/api/v1/todos`,
       {
         _id,
       }
@@ -40,7 +38,7 @@ const TodoList = () => {
   const createTodo = async () => {
     setLoading(true);
     const res = await axios.post(
-      "https://my-utils-backend.onrender.com/api/v1/todos",
+      `${import.meta.env.VITE_API_URL}/api/v1/todos`,
       {
         label: inputRef.current.value,
       }
@@ -53,7 +51,7 @@ const TodoList = () => {
   const deleteTodo = async (todoId) => {
     setLoading(true);
     const res = await axios.delete(
-      `https://my-utils-backend.onrender.com/api/v1/todos/${todoId}`
+      `${import.meta.env.VITE_API_URL}/api/v1/todos/${todoId}`
     );
     getAllTodos();
     setLoading(false);
@@ -74,7 +72,7 @@ const TodoList = () => {
             loading ? (
               <ThreeDots color="white" height={20} width={20} />
             ) : (
-              <IoMdAdd className="text-[30px] font-light" />
+              <IoMdAdd className="text-[20px] font-light" />
             )
           }
           onClick={createTodo}
