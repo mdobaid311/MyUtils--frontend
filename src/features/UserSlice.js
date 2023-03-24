@@ -11,9 +11,13 @@ export const userSlice = createSlice({
       const newState = { name: action.payload.user };
       return newState;
     },
+    logoutUser: (state) => {
+      localStorage.removeItem("token");
+      return { name: "" };
+    },
   },
 });
 
-export const { loginUser } = userSlice.actions;
+export const { loginUser,logoutUser } = userSlice.actions;
 
 export default userSlice.reducer;
