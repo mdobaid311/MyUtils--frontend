@@ -5,12 +5,14 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logoutUser } from "../../features/UserSlice";
 import { tabs } from "../../constants/tabs";
-
+import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const logoutHandler = () => {
     dispatch(logoutUser());
+    navigate("/login");
   };
 
   return (

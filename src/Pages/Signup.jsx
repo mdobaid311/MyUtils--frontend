@@ -2,34 +2,41 @@ import React, { useState } from "react";
 import { useRef } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { loginUser } from "../features/UserSlice";
 import { Link, useNavigate } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
+import { signupUser } from "../features/UserSlice";
 
-const Login = () => {
+const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const confirmPasswordRef = useRef();
   let navigate = useNavigate();
 
   const dispatch = useDispatch();
 
-  const loginHandler = async (e) => {
+  const signupHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://my-utils-backend.onrender.com/api/v1/auth/login",
-        {
-          email: emailRef.current.value,
-          password: passwordRef.current.value,
-        }
-      );
-      console.log(res.data);
-      dispatch(loginUser(res.data));
-      setLoading(false);
-      navigate("/");
+      if (passwordRef.current.value === confirmPasswordRef.current.value) {
+        const res = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/v1/auth/register`,
+          {
+            name: nameRef.current.value,
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+          }
+        );
+        console.log(res.data);
+        dispatch(signupUser(res.data));
+        setLoading(false);
+        navigate("/");
+      } else {
+        throw new Error("Passwords do not match");
+      }
     } catch (error) {
       setError(error);
       setLoading(false);
@@ -59,9 +66,16 @@ const Login = () => {
         </h1>
         <form
           className=" flex flex-col border-[3px] border-[#0064FE] p-10 rounded-md"
-          onSubmit={loginHandler}
+          onSubmit={signupHandler}
         >
-          <h1 className="text-[32px] uppercase text-center mb-4 ">Login</h1>
+          <h1 className="text-[32px] uppercase text-center mb-4 ">Signup</h1>
+          <input
+            type="text"
+            placeholder="Name"
+            className="bg-slate-300 px-5 py-2 placeholder:text-black rounded-md my-2 outline-none"
+            onChange={() => setError("")}
+            ref={nameRef}
+          />
           <input
             type="email"
             placeholder="Email"
@@ -76,14 +90,21 @@ const Login = () => {
             onChange={() => setError("")}
             ref={passwordRef}
           />
+          <input
+            type="password"
+            placeholder="Confirm password"
+            className="bg-slate-300 px-5 py-2 placeholder:text-black rounded-md my-2 outline-none"
+            onChange={() => setError("")}
+            ref={confirmPasswordRef}
+          />
           <button
             className="bg-[#0064FE] px-5 py-2 text-white rounded-md my-2 outline-none flex justify-center"
-            onClick={loginHandler}
+            onClick={signupHandler}
           >
             {loading ? (
               <ThreeDots color="white" height={20} width={20} />
             ) : (
-              "Login"
+              "Signup"
             )}
           </button>
           <span className="text-sm text-center text-red-500">
@@ -91,9 +112,9 @@ const Login = () => {
           </span>
         </form>
         <span className="block mt-5">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-[#0064FE]">
-            Signup
+          Already have an account?{" "}
+          <Link to="/login" className="text-[#0064FE]">
+            Login
           </Link>
         </span>
       </div>
@@ -101,4 +122,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

@@ -10,17 +10,14 @@ import ChatGPT from "./Components/ChatGPT/ChatGPT";
 import TodoList from "./Components/TodoList/TodoList";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
+import Signup from "./Pages/Signup";
 
 function App() {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
-  }, []);
+
   return (
     <Routes>
       <Route exact path="/login" element={<Login />} />
+      <Route exact path="/signup" element={<Signup />} />
       <Route path="*" element={<Home />}>
         <Route path="todo-list" element={<TodoList />} />
         <Route path="codex" element={<ChatGPT />} />
