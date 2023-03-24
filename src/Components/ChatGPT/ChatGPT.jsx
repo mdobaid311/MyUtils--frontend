@@ -9,24 +9,44 @@ const ChatGPT = () => {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState(false);
   const inputRef = useRef();
 
   const resultHandler = async () => {
     setLoading(true);
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/codex`, {
-      prompt: inputRef.current.value,
-    });
-    setLoading(false);
-    setSaved(false);
-    setAnswer(await res.data.chatGPTResponse.trim());
+    setError(false);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v1/codex`,
+        {
+          prompt: inputRef.current.value,
+        }
+      );
+      setLoading(false);
+      setSaved(false);
+      setError(false);
+      setAnswer(await res.data.chatGPTResponse.trim());
+    } catch (error) {
+      setLoading(false);
+      setSaved(false);
+      setError(true);
+    }
   };
 
   const addNoteHandler = async () => {
-    const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/v1/notes`, {
-      title: inputRef.current.value,
-      note: answer.trim(),
-    });
-    setSaved(true);
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/v1/notes`,
+        {
+          title: inputRef.current.value,
+          note: answer.trim(),
+        }
+      );
+      setSaved(true);
+      setError(false);
+    } catch (error) {
+      setError(true);
+    }
   };
 
   return (
@@ -68,6 +88,9 @@ const ChatGPT = () => {
           </div>
         </>
       )}
+      <span className="text-center text-red-500">
+        {error && " Something went wrong. Please try again."}
+      </span>
     </div>
   );
 };
